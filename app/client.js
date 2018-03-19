@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import './config'
 import Routes from './routes'
 import configure from './store/configureStore'
-
+// global.gconfig是初始状态
 const store = configure({ config: global.gconfig })
 
 ReactDOM.render(

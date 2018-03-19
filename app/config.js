@@ -1,9 +1,12 @@
+//这些都是初始状态
 export default (() => {
   window.gconfig = {};
+  //+(function(){}()) 就是让该匿名函数立即执行
   +(function (global) {
-    // 本地开发打开的路径以及端口
-    global.linkUrl = 'http://localhost:3001';
-    if (process.env.NODE_ENV === 'production') { // 生产环境用不同的接口地址
+    // 本地开发打开的路径以及端口(见mock/http.js)
+    global.linkUrl = 'http://localhost:1111';
+    // 生产环境用不同的接口地址
+    if (process.env.NODE_ENV === 'production') {
       global.linkUrl = 'http://localhost:3000';
     }
     // 系统一二级菜单

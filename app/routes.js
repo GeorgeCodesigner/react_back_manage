@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
-import hashHistory from './history'
+import hashHistory from './middleware/history/history'
 
 import App from './base'
 import Welcome from './pages/welcome'
