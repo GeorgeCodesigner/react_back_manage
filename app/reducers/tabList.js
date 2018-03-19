@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions'
+import { handleActions } from 'redux-actions' //handleActions用来将所有的action集中在一起处理
 // import { hasResponseError } from 'utils'
 
 const tabList = JSON.parse(sessionStorage.getItem('tabList'));
@@ -13,7 +13,7 @@ const tabListResult = handleActions({
     return { ...state, loading: false }
   },
   'update tab list'(state, action) {
-    const data = action.payload
+    const data = action.payload; // payload是一个对象，用作Action携带数据的载体
     const findList = state.list.find(tab => tab.key === data.key);
     const list = findList === undefined ? [...state.list, data] : state.list;
     sessionStorage.setItem('tabList', JSON.stringify({ list, activeKey: data.key, loading: false }));
@@ -25,10 +25,10 @@ const tabListResult = handleActions({
     return { ...state, activeKey, loading: false }
   },
   'delete tab from list'(state, action) {
-    const { targetKey } = action.payload
-    const list = []
-    let delIndex = 0
-    let { activeKey } = state
+    const { targetKey } = action.payload;
+    const list = [];
+    let delIndex = 0;
+    let { activeKey } = state;
     state.list.map((tab, index) => {
       tab.key === targetKey ? delIndex = index : list.push(tab);
     });
@@ -40,6 +40,6 @@ const tabListResult = handleActions({
     sessionStorage.setItem('tabList', JSON.stringify({ list, activeKey, loading: false }));
     return { list, activeKey, loading: false }
   },
-}, initialState)
+}, initialState);
 
 export { tabListResult as default }

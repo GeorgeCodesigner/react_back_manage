@@ -1,6 +1,7 @@
 import React from 'react'
+//Router是保持UI和URL的同步的组件，Route是用于声明路由映射到应用程序的组件层，
 import { Router, Route, IndexRoute } from 'react-router'
-import hashHistory from './middleware/history/history'
+import hashHistory from './middleware/history/history' // Router监听的 history 对象
 
 import App from './base'
 import Welcome from './pages/welcome'
@@ -39,6 +40,7 @@ const chat = (location, cb) => {
     cb(null, require('./pages/chat').default)
   }, 'chat')
 }
+
 // 编辑器
 const editor = (location, cb) => {
   require.ensure([], (require) => {

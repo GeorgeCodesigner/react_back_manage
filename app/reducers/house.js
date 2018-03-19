@@ -17,7 +17,7 @@ export const houseCheckSearchResult = handleActions({
   },
   'receive houseCheck list'(state, action) {
     // eslint-disable-next-line no-unused-vars
-    const { req, res } = action.payload
+    const { req, res } = action.payload;
     // if (hasResponseError(res)) {
     //   message.error(res.msg)
     //   return { ...state, loading: false }
@@ -43,11 +43,11 @@ export const houseCheckSearchQuery = handleActions({
   },
 }, queryResultState())
 
-
 const detailResultState = {
   allowRole: {},
   shopInfo: {},
 }
+
 export const houseDetailResult = handleActions({
   'request house detail'(state, action) {
     return { ...state, loading: false }

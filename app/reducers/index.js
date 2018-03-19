@@ -5,6 +5,7 @@ import {
   combineReducers,
 } from 'redux'
 
+// tabList
 import tabListResult from './tabList'
 // house
 import {
@@ -12,10 +13,11 @@ import {
   houseCheckSearchQuery,
   houseDetailResult,
 } from './house'
-
+// common
 import {
   loginResponse,
 } from './common'
+
 // 将子Reducer函数合成大的Reducer
 const rootReducer = combineReducers({
   routing,
