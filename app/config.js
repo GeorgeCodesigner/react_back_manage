@@ -1,4 +1,4 @@
-//这些都是初始状态
+//这些都是initialState
 export default (() => {
   window.gconfig = {};
   //+(function(){}()) 就是让该匿名函数立即执行

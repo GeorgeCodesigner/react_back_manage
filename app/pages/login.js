@@ -1,17 +1,17 @@
-
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { hashHistory, Link } from 'react-router'
 import { Spin, message, Form, Icon, Input, Button, Row, Col } from 'antd'
 import { fetchLogin, userInfo } from 'actions/common'
-
-const FormItem = Form.Item
-
+//antd Form的item用法
+const FormItem = Form.Item;
+// connect方法用于从UI组件（下面的Login组件，只负责 UI 的呈现）自动生成容器组件（括号里的方法，负责管理数据和逻辑）
 @connect((state, props) => ({
-  config: state.config,
-  loginResponse: state.tabListResult,
+  config: state.config, // config.js里面的配置
+  loginResponse: state.tabListResult, // reducer里面的action
 }))
+//为Login组件生成表单
 @Form.create({
   onFieldsChange(props, items) {
     // console.log(items)
@@ -20,30 +20,30 @@ const FormItem = Form.Item
 })
 
 export default class Login extends Component {
-  // 初始化页面常量 绑定事件方法
+  // 初始化页面常量、绑定事件方法
   constructor(props, context) {
-    super(props)
+    super(props);
     this.state = {
-      loading: false,
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
+      loading: false
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
     // this.handleChange = this.handleChange.bind(this)
-    this.checkPass = this.checkPass.bind(this)
-    this.checkName = this.checkName.bind(this)
-    this.noop = this.noop.bind(this)
+    this.checkPass = this.checkPass.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.noop = this.noop.bind(this);
   }
-
+  //提交处理方法
   handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // this.state.loading = true
         // console.log(values)
-        // this.setState({loading: true})
+        this.setState({loading: true})
         Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()))
         this.props.dispatch(fetchLogin(values, (res) => {
-          console.log(res)
-          message.success(res.msg)
+          console.log(res);
+          message.success(res.msg);
           if (res.status === 1) {
             // const query = this.props.form.getFieldsValue()
             // global.gconfig.staff = res.data.user
@@ -60,13 +60,14 @@ export default class Login extends Component {
             }))
           }
         }, (res) => {
-          message.warning(res.msg)
+          console.log(res);
+          message.warning(res.msg);
           this.setState({
-            loading: false,
+            loading: false
           })
         }))
-        sessionStorage.setItem('token', 'dupi')
-        hashHistory.push('/')
+        //sessionStorage.setItem('token', 'dupi');
+        //hashHistory.push('/')
       }
     })
   }
@@ -98,13 +99,13 @@ export default class Login extends Component {
     callback()
   }
 
-  noop = () => false
+  noop = () => false;
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="login">
-        <div className="sy_top" />
+        <div className="sy_top"></div>
         <div className="btmLogin">
           <div className="sy_bottom">
             <h1 id="PerformName">登录</h1>

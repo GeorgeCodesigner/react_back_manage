@@ -9,17 +9,16 @@ import Header from './header'
 import LeftNav from './nav'
 import TabList from './tabList'
 
-
 @connect((state, props) => ({}))
 export default class App extends Component {
   // 初始化页面常量 绑定事件方法
   constructor(props, context) {
-    super(props)
+    super(props);
     this.state = {
       pageHeight: 0,
       isLeftNavMini: false, // 左侧导航菜单是否mini模式
-    }
-    this.isLeftNavMini = this.isLeftNavMini.bind(this)
+    };
+    this.isLeftNavMini = this.isLeftNavMini.bind(this);
   }
 
   // 组件已经加载到dom中
