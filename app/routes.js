@@ -1,11 +1,11 @@
 import React from 'react'
-//Router是保持UI和URL的同步的组件，Route是用于声明路由映射到应用程序的组件层，
+// Router是保持UI和URL的同步的组件；Route是用于声明路由映射到应用程序的组件层；当用户在父route的URL时，IndexRoute允许你为父route提供一个默认的"child"
 import { Router, Route, IndexRoute } from 'react-router'
 import hashHistory from './middleware/history/history' // Router监听的 history 对象
 
 import App from './base'
 import Welcome from './pages/welcome'
-
+// require.ensure(dependencies: String[], callback: function(require), chunkName: String)
 // 表格列表
 const table = (location, cb) => {
   require.ensure([], (require) => {
@@ -50,13 +50,13 @@ const editor = (location, cb) => {
 
 /* 进入路由的判断 */
 function isLogin(nextState, replaceState) {
-  const token = sessionStorage.getItem('token')
+  const token = sessionStorage.getItem('token');
   if (!token) {
     replaceState('/login')
     // hashHistory.push('/login')
   }
 }
-
+// getComponent是异步的，回调函数中执行查找组件等操作；onEnter在route即将进入时调用,nextState是下一个路由的state，replaceState重定向到另一个路径
 export default () => (
   <Router history={hashHistory}>
     <Route path="/" component={App} onEnter={isLogin}>

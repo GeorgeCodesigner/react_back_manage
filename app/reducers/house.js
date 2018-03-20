@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { hasResponseError } from 'utils'
+import { hasResponseError } from 'utils' // utils/index.js里面好像没这个方法
 // import moment from 'moment'
 import { message } from 'antd'
 

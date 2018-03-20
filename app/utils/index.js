@@ -2,7 +2,7 @@ import { message } from 'antd'
 import { hashHistory } from 'react-router'
 import * as ajaxFun from './ajax'
 
-export const ajax = ajaxFun
+export const ajax = ajaxFun;
 export function isArray(arr) {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
