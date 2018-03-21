@@ -6,7 +6,7 @@ import {
 } from 'api'
 import {
   createAjaxAction,
-  fakeAjaxAction,
+  fakeAjaxAction, // 没有这个
 } from 'utils'
 
 

@@ -15,26 +15,26 @@ http.createServer((req, res) => {
     res.end(null)
   }
   if (req.method === 'POST') {
-    let postData = ''
-    req.addListener('data', (dataBuffer) => postData += dataBuffer)
+    let postData = '';
+    req.addListener('data', (dataBuffer) => postData += dataBuffer);
     req.addListener('end', () => {
       postData = JSON.parse(postData)
       const originData = _map[req.url]
         ? Mock.mock(_map[req.url])
-        : ''
+        : '';
       const data = typeof (_filter[req.url]) === 'function'
         ? _filter[req.url](originData, postData)
-        : originData
-      // const data = originData
-      setTimeout(() => {
-        if (data.status === 1) {
-          data.msg = 'success'
-        }
-        if (data.status === 0) {
-          data.msg = 'fail'
-        }
-        res.end(JSON.stringify(data))
-      }, 1000)
+        : originData;
+      //判断登录
+      if (data.status === 1 && data.data.token) {
+        data.msg = '登录成功'
+      }else if (data.status === 0 && data.data.token) {
+        data.msg = '登录失败'
+      }
+      //判断获取tablist的数据
+
+      console.log("resData:"+JSON.stringify(data));
+      res.end(JSON.stringify(data));
     })
   }
 }).listen(1111)

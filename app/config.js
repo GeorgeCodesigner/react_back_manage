@@ -42,7 +42,7 @@ export default (() => {
     ];
   }(window.gconfig));
 })()
-
+// axios使用的配置
 export const prefix = global.gconfig.linkUrl
 export const suffix = '.json'
 export const timeout = 6000
