@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -6,7 +5,7 @@ import { hashHistory, Link } from 'react-router'
 import { Spin, message, Form, Icon, Input, Button, Row, Col } from 'antd'
 import { fetchRegister } from 'actions/common'
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 
 @connect((state, props) => ({
     config: state.config,
@@ -19,7 +18,7 @@ const FormItem = Form.Item
   },
 })
 
-export default class Login extends Component {
+export default class Register extends Component {
   // 初始化页面常量 绑定事件方法
   constructor(props, context) {
     super(props)
@@ -27,46 +26,45 @@ export default class Login extends Component {
       loading: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
+    // this.handleConfirmBlur=this.handleConfirmBlur.bind(this)
+    // this.checkConfirm=this.checkConfirm.bind(this)
     this.checkPass = this.checkPass.bind(this)
     this.checkName = this.checkName.bind(this)
     this.noop = this.noop.bind(this)
   }
 
   handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // this.state.loading = true
-        // console.log(values)
-        // this.setState({loading: true})
-        Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()))
+        this.setState({
+            loading: true
+        });
+        Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()));
         this.props.dispatch(fetchRegister(values, (res) => {
-          // console.log(res)
-          message.success(res.msg)
+          console.log(res);
           if (res.status === 1) {
-            const query = this.props.form.getFieldsValue()
-            global.gconfig.staff = res.data.user
-            // hashHistory.push('/')
+            message.success(res.msg);
+            // const query = this.props.form.getFieldsValue();
+            // global.gconfig.staff = res.data.user
+            hashHistory.push('/login')
           }
         }, (res) => {
-          message.warning(res.msg)
+          message.warning(res.msg);
           this.setState({
             loading: false,
           })
         }))
-        // sessionStorage.setItem('token', 'dupi')
-        // sessionStorage.setItem('username', values.username)
-        // hashHistory.push('/')
       }
     })
   }
-
+  /*// 没用到
   handleChange(e) {
     const newState = {}
     newState[e.target.name] = e.target.value
     this.setState(newState)
-  }
+  }*/
 
   // 组件已经加载到dom中
   componentDidMount() {
@@ -89,10 +87,10 @@ export default class Login extends Component {
     callback()
   }
 
-  handleConfirmBlur = (e) => {
+  /*handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  }
+  }*/
 
   checkPassword = (rule, value, callback) => {
     const form = this.props.form;
@@ -102,21 +100,22 @@ export default class Login extends Component {
       callback();
     }
   }
-
+  /*// validateFields:校验confirm控件
+  // force: true表示对已经校验过的表单域，在 validateTrigger 再次被触发时再次校验
   checkConfirm = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
-  }
+  }*/
 
   noop() {
     return false
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="login">
         <div className="sy_top" />
@@ -146,7 +145,7 @@ export default class Login extends Component {
                         rules: [
                           { required: true, message: '请输入密码' },
                           // { pattern: regExpConfig.pwd, message: '密码只能是6-16个数字或者字母组成' }
-                          { validator: this.checkConfirm },
+                          { validator: this.checkPass },
                         ],
                         // validateTrigger: 'onBlur',
 
@@ -154,13 +153,13 @@ export default class Login extends Component {
                           prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
                           placeholder="请输入密码"
                           type="password"
-                          onBlur={this.handleConfirmBlur}
+                          // onBlur={this.handleConfirmBlur}
                         />,)}
                     </FormItem>
                     <FormItem hasFeedback>
                       {getFieldDecorator('confirm', {
                         rules: [
-                          { required: true, message: '请输入密码' },
+                          { required: true, message: '请再次输入密码' },
                           // { pattern: regExpConfig.pwd, message: '密码只能是6-16个数字或者字母组成' }
                           { validator: this.checkPassword },
                         ],

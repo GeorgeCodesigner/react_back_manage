@@ -30,8 +30,8 @@ export default class Header extends Component {
 
   // 登出
   handleLogout() {
-    const { config } = this.props
-    const self = this
+    const { config } = this.props;
+    const self = this;
     confirm({
       title: '提示',
       content: '确认退出登录吗？',
@@ -65,14 +65,14 @@ export default class Header extends Component {
         </Menu.Item>
       </Menu>
     )
-    const username = sessionStorage.getItem('username')
+    const username = sessionStorage.getItem('username');
     return (
       <header id="navbar">
         <div id="navbar-container" className="boxed">
           <div className="navbar-header">
             <Link to="/" className="navbar-brand">
               <div className="brand-title">
-                <span className="brand-text">肚皮</span>
+                <span className="brand-text">后台管理系统</span>
               </div>
             </Link>
           </div>
@@ -81,7 +81,7 @@ export default class Header extends Component {
             <ul className="nav navbar-top-links pull-right">
               <li className="login-info">
                 <Dropdown overlay={menu} trigger={['click']}>
-                  <a className="ant-dropdown-link">{username || '肚小肚'}</a>
+                  <a className="ant-dropdown-link">{username || ''}</a>
                 </Dropdown>
               </li>
             </ul>

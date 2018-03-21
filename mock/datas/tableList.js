@@ -18,5 +18,4 @@ module.exports = {
   msg: '',
   errorCode: '',
   status: 1,
-
 }

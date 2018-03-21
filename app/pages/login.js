@@ -40,29 +40,34 @@ export default class Login extends Component {
     // 用法：this.props.form.validateFields([fieldNames: string[]], options: object, callback: Function(errors, values))
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // this.state.loading = true
-        // console.log(values)
         this.setState({
           loading: true
-        })
+        });
         // values={username:"xxx",password:"xxx"}
         Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()));
         this.props.dispatch(fetchLogin(values, (res) => {
           console.log(res);
-          message.success(res.msg);
           if (res.status === 1) {
             // const query = this.props.form.getFieldsValue()
             // global.gconfig.staff = res.data.user
-            // sessionStorage.setItem('staff', JSON.stringify({ ...res.data.user }))
-            sessionStorage.setItem('token', res.data.token);
             // sessionStorage.setItem('isLeftNavMini', false)
-            hashHistory.push('/')
+            message.success(res.msg);
             this.props.dispatch(userInfo(values, (response) => {
-              console.log(response)
-              sessionStorage.setItem('token', response.data.token)
-              hashHistory.push('/')
+              console.log(response);
+              if(response.status===1){
+                  sessionStorage.setItem('token', response.data.token);
+                  sessionStorage.setItem('staff', JSON.stringify({ ...response.data.user}));
+                  hashHistory.push('/');
+              }
+                this.setState({
+                    loading: false
+                })
             }, (response) => {
-              message.warning(response)
+              console.log(response);
+              message.warning(response.msg);
+                this.setState({
+                    loading: false
+                })
             }))
           }
         }, (res) => {
@@ -72,8 +77,6 @@ export default class Login extends Component {
             loading: false
           })
         }))
-        // sessionStorage.setItem('token', 'dupi');
-        // hashHistory.push('/')
       }
     })
   }

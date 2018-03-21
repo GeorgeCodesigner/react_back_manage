@@ -18,21 +18,41 @@ http.createServer((req, res) => {
     let postData = '';
     req.addListener('data', (dataBuffer) => postData += dataBuffer);
     req.addListener('end', () => {
-      postData = JSON.parse(postData)
+      postData = JSON.parse(postData);
+      console.log("postData:"+JSON.stringify(postData));
       const originData = _map[req.url]
         ? Mock.mock(_map[req.url])
         : '';
       const data = typeof (_filter[req.url]) === 'function'
         ? _filter[req.url](originData, postData)
         : originData;
-      //判断登录
-      if (data.status === 1 && data.data.token) {
-        data.msg = '登录成功'
-      }else if (data.status === 0 && data.data.token) {
-        data.msg = '登录失败'
-      }
-      //判断获取tablist的数据
 
+      if (data.status === 1) {
+        if(data.hasOwnProperty("data")){
+          if(data.data.hasOwnProperty("token")){
+            data.msg = '获取用户token成功';
+            data.data.username = postData.username;
+          }
+        }else{
+          if(data.type==="login"){
+            data.msg = '登录成功';
+          }else if(data.type==="register"){
+              data.msg = '注册成功';
+          }
+        }
+      }else if (data.status === 0) {
+        if(data.hasOwnProperty("data")){
+          if(data.data.hasOwnProperty("token")){
+            data.msg = '获取用户token失败';
+          }
+        }else{
+          if(data.type==="login"){
+              data.msg = '登录失败';
+          }else if(data.type==="register"){
+              data.msg = '注册失败';
+          }
+        }
+      }
       console.log("resData:"+JSON.stringify(data));
       res.end(JSON.stringify(data));
     })

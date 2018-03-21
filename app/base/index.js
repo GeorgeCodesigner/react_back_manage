@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 // import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -8,7 +7,7 @@ import 'style/base.less'
 import Header from './header'
 import LeftNav from './nav'
 import TabList from './tabList'
-
+// connect方法用于从UI组件（下面的Login组件，只负责 UI 的呈现）自动生成容器组件（括号里的方法，负责管理数据和逻辑）
 @connect((state, props) => ({}))
 export default class App extends Component {
   // 初始化页面常量 绑定事件方法
