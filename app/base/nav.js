@@ -13,9 +13,9 @@ const { SubMenu } = Menu;
 export default class LeftNav extends Component {
   constructor(props, context) {
     super(props, context);
-    const { pathname } = props.location; // 来自base/index.js中组件的属性，
+    const { pathname } = props.location; // 来自base/index.js中组件的属性
     this.state = {
-      current: pathname,
+      current: pathname, // 当前的二级菜单
       openKeys: ['sub0'], // 默认展开key=0的拥有submenu的主菜单项(也就是第一个一级菜单)
       isLeftNavMini: false,
       collapsed: false, // true表示二级菜单是收起状态且不能展开，false表示展开状态且可以展开
@@ -57,9 +57,7 @@ export default class LeftNav extends Component {
           }
         })
       }
-      if (item.children && item.children.length > 0) {
-        len++
-      }
+      len++
     });
     console.log(curSub);
     this.setState({
@@ -72,10 +70,10 @@ export default class LeftNav extends Component {
       current: e.key,
       // openKeys: e.keyPath.slice(1),
     }, () => {
-      hashHistory.push(e.key)
+      hashHistory.push(e.key);
       this.props.dispatch(updateTabList({ title: e.item.props.name, content: '', key: e.key }))
     })
-  }
+  };
 
   _handleToggle = (openKeys) => {
     const { state } = this;
@@ -90,25 +88,24 @@ export default class LeftNav extends Component {
       nextOpenKeys = this.getAncestorKeys(latestCloseKey);
     }
     this.setState({ openKeys: nextOpenKeys });
-  }
+  };
 
   getAncestorKeys = (key) => {
     const map = {
       sub3: ['sub2'],
     };
     return map[key] || [];
-  }
-  // 左侧菜单切换显示模式
+  };
+  // 左侧菜单切换显示mini模式或正常模式
   navMini = () => {
     this.setState({
       isLeftNavMini: !this.state.isLeftNavMini,
       collapsed: !this.state.collapsed,
     }, () => {
       // console.log(this.state.isLeftNavMini)
-      this.props.leftNavMode(this.state.isLeftNavMini)
+      this.props.leftNavMode(this.state.isLeftNavMini);
     })
-  }
-
+  };
   // 二级菜单的生成
   renderLeftNav(options) {
     const self = this
@@ -148,7 +145,7 @@ export default class LeftNav extends Component {
   }
 
   render() {
-    const selectedKeys = [this.props.location.pathname.replace('/', '')]
+    const selectedKeys = [this.props.location.pathname.replace('/', '')];
     return (
       <div className={this.state.isLeftNavMini ? 'LeftNavMini' : ''}>
         <nav id="mainnav-container" className="mainnav-container">
@@ -162,7 +159,7 @@ export default class LeftNav extends Component {
               onOpenChange={this._handleToggle}
               selectedKeys={selectedKeys}
               mode="inline" // 内嵌模式的菜单
-              inlineIndent="12"
+              inlineIndent="12" // inline 模式的菜单缩进宽度
               inlineCollapsed={this.state.collapsed}
             >
               {this.renderLeftNav(this.props.config.nav || [])}
