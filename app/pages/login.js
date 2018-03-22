@@ -25,7 +25,7 @@ export default class Login extends Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.handleChange = this.handleChange.bind(this)
@@ -41,7 +41,7 @@ export default class Login extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
-          loading: true
+          loading: true,
         });
         // values={username:"xxx",password:"xxx"}
         Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()));
@@ -54,20 +54,20 @@ export default class Login extends Component {
             message.success(res.msg);
             this.props.dispatch(userInfo(values, (response) => {
               console.log(response);
-              if(response.status===1){
-                  sessionStorage.setItem('token', response.data.token);
-                  sessionStorage.setItem('staff', JSON.stringify({ ...response.data.user}));
-                  hashHistory.push('/');
+              if (response.status === 1) {
+                sessionStorage.setItem('token', response.data.token);
+                sessionStorage.setItem('staff', JSON.stringify({ ...response.data.user }));
+                hashHistory.push('/');
               }
-                this.setState({
-                    loading: false
-                })
+              this.setState({
+                loading: false,
+              })
             }, (response) => {
               console.log(response);
               message.warning(response.msg);
-                this.setState({
-                    loading: false
-                })
+              this.setState({
+                loading: false,
+              })
             }))
           }
         }, (res) => {

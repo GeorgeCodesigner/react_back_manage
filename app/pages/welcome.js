@@ -1,41 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { message } from 'antd'
-import { userInfo } from 'actions/common'
 
-@connect((state, props) => ({
-  config: state.config,
-}))
-
+@connect((state, props) => ({}))
 export default class welcome extends Component {
   // 初始化页面常量 绑定事件方法
   constructor(props, context) {
-    super(props)
+    super(props);
     this.state = {
-      data: {},
+      user: JSON.parse(sessionStorage.getItem('staff')),
     }
-    // this.getUserInfo = this.getUserInfo.bind(this)
   }
-
-  // 组件已经加载到dom中
-  componentDidMount() {
-
-  }
-
-  getUserInfo = () => {
-    this.props.dispatch(userInfo({}, (response) => {
-      console.log(response)
-    }, (response) => {
-      console.log(response)
-      // message.warning(response)
-    }))
-  }
-
   render() {
     return (
       <div className="welcome">
         <div className="content">
-          <h2 className="title" onClick={() => this.getUserInfo()}>肚小肚</h2>
+          <h2 className="title">{this.state.user.username}，欢迎你！</h2>
         </div>
       </div>
     )

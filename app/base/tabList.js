@@ -1,12 +1,13 @@
+// 主页右半部分的控制
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { routerActions } from 'react-router-redux'
-import { is } from 'immutable'
+import { is } from 'immutable' // Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。
 import { Tabs } from 'antd'
 import { updateTabChecked, deleteTabFromList } from 'actions/tabList'
 
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
 @connect(
   (state, props) => ({ tabList: state.tabListResult }),
@@ -51,12 +52,12 @@ export default class TabList extends Component {
   }
   shouldComponentUpdate(nextProps, nextState) {
     const thisProps = this.props || {};
-
     if (Object.keys(thisProps).length !== Object.keys(nextProps).length) {
       return true;
     }
     // eslint-disable-next-line no-restricted-syntax
     for (const key in nextProps) {
+      // Immutable.is对两个对象进行值比较，只比较值
       if (thisProps[key] !== nextProps[key] || !is(thisProps[key], nextProps[key])) {
         return true;
       }
@@ -64,10 +65,10 @@ export default class TabList extends Component {
     return false;
   }
   render() {
-    const { tabList } = this.props
+    const { tabList } = this.props;
     return (
       <Tabs
-        hideAdd
+        hideAdd={true}
         onChange={this.onChange}
         activeKey={tabList.activeKey}
         type="editable-card"

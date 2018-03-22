@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions' //handleActions用来将所有的action集中在一起处理
+import { handleActions } from 'redux-actions' // handleActions用来将所有的action集中在一起处理
 // import { hasResponseError } from 'utils'
 
 const tabList = JSON.parse(sessionStorage.getItem('tabList'));

@@ -31,7 +31,17 @@ http.createServer((req, res) => {
         if(data.hasOwnProperty("data")){
           if(data.data.hasOwnProperty("token")){
             data.msg = '获取用户token成功';
-            data.data.username = postData.username;
+            //设置用户信息
+            data.data.user ={
+              gxdwqc: 'KF', // 所属单位
+              longmobile: '13800000000', // 手机长号
+              post: 'ccz@163.com', // 邮箱
+              shortmobile: '1234',  // 手机短号
+              username: postData.username,
+              userid: '123456789', // 用户id
+            }
+          }else{
+              data.msg = '获取表格数据成功';
           }
         }else{
           if(data.type==="login"){
@@ -44,6 +54,8 @@ http.createServer((req, res) => {
         if(data.hasOwnProperty("data")){
           if(data.data.hasOwnProperty("token")){
             data.msg = '获取用户token失败';
+          }else{
+              data.msg = '获取表格数据失败';
           }
         }else{
           if(data.type==="login"){

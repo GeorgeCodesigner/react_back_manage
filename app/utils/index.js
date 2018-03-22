@@ -15,11 +15,11 @@ export const createAjaxAction = (httpHandle, startAction, endAction) => (reqData
     httpHandle(reqData, handleCancel)
       .then((resp) => {
         endAction && dispatch(endAction({ req: reqData, res: resp.data }))
-        console.log(resp.data);
+        // console.log(resp.data);
         return resp.data
       })
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         switch (resp.status) {
         case 1: // 成功状态
           cb && cb(resp);

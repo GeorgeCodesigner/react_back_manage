@@ -15,11 +15,10 @@ export default class App extends Component {
     super(props);
     this.state = {
       pageHeight: 0,
-      isLeftNavMini: false, // 左侧导航菜单是否mini模式
+      isLeftNavMini: false, // 左侧导航菜单是否mini模式(true是mini模式)
     };
     this.isLeftNavMini = this.isLeftNavMini.bind(this);
   }
-
   // 组件已经加载到dom中
   componentDidMount() {
     // antd的message组件 的全局配置
@@ -27,15 +26,14 @@ export default class App extends Component {
       duration: 3,
     })
   }
-
   componentWillMount() {
     // 初始化左侧菜单是mini模式还是正常模式
-    if (sessionStorage.getItem('isLeftNavMini') == 'false') {
+    if (sessionStorage.getItem('isLeftNavMini') === 'false') {
       this.setState({
         isLeftNavMini: false,
       })
     }
-    if (sessionStorage.getItem('isLeftNavMini') == 'true') {
+    if (sessionStorage.getItem('isLeftNavMini') === 'true') {
       this.setState({
         isLeftNavMini: true,
       })
@@ -52,7 +50,8 @@ export default class App extends Component {
   }
 
   render() {
-    const { location, children } = this.props
+    const { location, children } = this.props; // location在routes.js中配置
+    // console.log(children);
     return (
       <div id="container" className="effect easeInOutBack mainnav-lg aside-bright">
         <Header />

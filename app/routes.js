@@ -6,6 +6,7 @@ import hashHistory from './middleware/history/history' // Router监听的 histor
 import App from './base'
 import Welcome from './pages/welcome'
 // require.ensure(dependencies: String[], callback: function(require), chunkName: String)
+// location在这里进行配置，后面base/index.js中会用到
 // 表格列表
 const table = (location, cb) => {
   require.ensure([], (require) => {

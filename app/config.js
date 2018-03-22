@@ -14,7 +14,7 @@ export default (() => {
       {
         id: 600110230,
         name: '功能列表',
-        icon: 'book',
+        // icon: 'book',
         url: '',
         children: [
           {
@@ -31,7 +31,7 @@ export default (() => {
       {
         id: 600110430,
         name: '其他',
-        icon: 'calculator',
+        // icon: 'calculator',
         url: '',
         children: [
           {

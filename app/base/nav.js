@@ -5,52 +5,52 @@ import { hashHistory, Link } from 'react-router'
 import { Menu, Icon, Spin } from 'antd'
 import { updateTabList } from 'actions/tabList'
 
-const { SubMenu } = Menu
+const { SubMenu } = Menu;
 
 @connect((state, props) => ({
   config: state.config,
 }))
 export default class LeftNav extends Component {
   constructor(props, context) {
-    super(props, context)
-
-    const { pathname } = props.location
+    super(props, context);
+    const { pathname } = props.location; // 来自base/index.js中组件的属性，
     this.state = {
       current: pathname,
-      openKeys: ['sub1'],
+      openKeys: ['sub0'], // 默认展开key=0的拥有submenu的主菜单项(也就是第一个一级菜单)
       isLeftNavMini: false,
-      collapsed: false,
-    }
-
-    this._handleClick = this._handleClick.bind(this)
-    this._handleToggle = this._handleToggle.bind(this)
-    this.navMini = this.navMini.bind(this)
-    this.renderLeftNav = this.renderLeftNav.bind(this)
+      collapsed: false, // true表示二级菜单是收起状态且不能展开，false表示展开状态且可以展开
+    };
+    this._handleClick = this._handleClick.bind(this);
+    this._handleToggle = this._handleToggle.bind(this);
+    this.navMini = this.navMini.bind(this);
+    this.renderLeftNav = this.renderLeftNav.bind(this);
   }
 
   componentWillMount() {
     // 初始化左侧菜单是mini模式还是正常模式
-    if (sessionStorage.getItem('isLeftNavMini') == 'false') {
+    if (sessionStorage.getItem('isLeftNavMini') === 'false') {
       this.setState({
         isLeftNavMini: false,
         collapsed: false,
       })
     }
-    if (sessionStorage.getItem('isLeftNavMini') == 'true') {
+    if (sessionStorage.getItem('isLeftNavMini') === 'true') {
       this.setState({
         isLeftNavMini: true,
         collapsed: true,
       })
     }
-    const menu = window.gconfig.nav
-    const curPath = `${this.props.location.pathname.replace('/', '')}`
-    // console.log(menu)
-    let len = 0
-    let curSub = 0
+    const menu = window.gconfig.nav;
+    const curPath = `${this.props.location.pathname.replace('/', '')}`;
+    // console.log(curPath)
+    let len = 0;
+    let curSub = 0;
+    // 一级菜单遍历
     menu.map((item) => {
       if (item.url && curPath === item.url) {
         curSub = len
       } else if (item.children && item.children.length > 0) {
+        // 二级菜单遍历
         item.children.map((record) => {
           if (curPath === record.url) {
             curSub = len
@@ -60,8 +60,8 @@ export default class LeftNav extends Component {
       if (item.children && item.children.length > 0) {
         len++
       }
-    })
-    // console.log(curSub)
+    });
+    console.log(curSub);
     this.setState({
       openKeys: [`sub${curSub}`],
     })
@@ -161,7 +161,7 @@ export default class LeftNav extends Component {
               openKeys={this.state.openKeys}
               onOpenChange={this._handleToggle}
               selectedKeys={selectedKeys}
-              mode="inline"
+              mode="inline" // 内嵌模式的菜单
               inlineIndent="12"
               inlineCollapsed={this.state.collapsed}
             >
