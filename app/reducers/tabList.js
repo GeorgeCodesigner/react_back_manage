@@ -5,8 +5,8 @@ const tabList = JSON.parse(sessionStorage.getItem('tabList'));
 
 const initialState = {
   list: tabList ? tabList.list : [],
-  activeKey: tabList ? tabList.activeKey : '',
-}
+  activeKey: tabList ? tabList.activeKey : '', // 当前选中的tab的key
+};
 
 const tabListResult = handleActions({
   'request tab list'(state, action) {

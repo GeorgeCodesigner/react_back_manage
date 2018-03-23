@@ -26,10 +26,10 @@ export const createAjaxAction = (httpHandle, startAction, endAction) => (reqData
           break
         case 0: // 失败状态
         default:
-          /*if (resp.status.toString() === '-1') {
-            sessionStorage.clear();
-            hashHistory.push('/login')
-          }*/
+          // if (resp.status.toString() === '-1') {
+          //   sessionStorage.clear();
+          //   hashHistory.push('/login')
+          // }
           if (reject) {
             reject(resp)
           } else {

@@ -46,14 +46,14 @@ export default class Login extends Component {
         // values={username:"xxx",password:"xxx"}
         Object.keys(values).map(key => values[key] = (values[key] && values[key].trim()));
         this.props.dispatch(fetchLogin(values, (res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 1) {
             // const query = this.props.form.getFieldsValue()
             // global.gconfig.staff = res.data.user
             // sessionStorage.setItem('isLeftNavMini', false)
             message.success(res.msg);
             this.props.dispatch(userInfo(values, (response) => {
-              console.log(response);
+              // console.log(response);
               if (response.status === 1) {
                 sessionStorage.setItem('token', response.data.token);
                 sessionStorage.setItem('staff', JSON.stringify({ ...response.data.user }));

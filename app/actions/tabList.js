@@ -1,3 +1,4 @@
+// 将reducers/tabList.js里面的handleActions的各个action在这里注册生成
 import { createAction } from 'redux-actions'
 
 export const requestTabList = createAction('request tab list');

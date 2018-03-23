@@ -26,26 +26,26 @@ export default class App extends Component {
       duration: 3,
     })
   }
-  componentWillMount() {
-    // 初始化左侧菜单是mini模式还是正常模式
-    if (sessionStorage.getItem('isLeftNavMini') === 'false') {
-      this.setState({
-        isLeftNavMini: false,
-      })
-    }
-    if (sessionStorage.getItem('isLeftNavMini') === 'true') {
-      this.setState({
-        isLeftNavMini: true,
-      })
-    }
-  }
+  // componentWillMount() {
+  //   // 初始化左侧菜单是mini模式还是正常模式
+  //   if (sessionStorage.getItem('isLeftNavMini') === 'false') {
+  //     this.setState({
+  //       isLeftNavMini: false,
+  //     })
+  //   }
+  //   if (sessionStorage.getItem('isLeftNavMini') === 'true') {
+  //     this.setState({
+  //       isLeftNavMini: true,
+  //     })
+  //   }
+  // }
 
   // 左侧是否mini
   isLeftNavMini(val) {
     this.setState({
       isLeftNavMini: val,
     }, () => {
-      sessionStorage.setItem('isLeftNavMini', val)
+      // sessionStorage.setItem('isLeftNavMini', val)
     })
   }
 
