@@ -4,7 +4,6 @@ import {
 import {
   combineReducers,
 } from 'redux'
-
 // tabList
 import tabListResult from './tabList'
 // house

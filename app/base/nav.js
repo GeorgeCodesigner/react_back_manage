@@ -68,7 +68,7 @@ export default class LeftNav extends Component {
   _handleClick = (e) => {
     // console.log(e); // e是点击事件
     hashHistory.push(e.key);
-    // 更新tablist并保存在sessionStorage中，为了每次刷新时主页右半部分的tab页显示正确
+    // 更新tablist并保存在sessionStorage中，content没有内容。为了每次刷新时主页右半部分的tab页显示正确
     this.props.dispatch(updateTabList({ title: e.item.props.name, content: '', key: e.key }));
   };
 
@@ -129,7 +129,7 @@ export default class LeftNav extends Component {
         <SubMenu key={`sub${index}`}
           title={
             <span>
-              <Icon type="caret-down" title={item.name} />
+              <Icon type="caret-up" title={item.name} />
               <span className="menu-name">{item.name}</span>
             </span>}
         >

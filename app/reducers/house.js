@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { hasResponseError } from 'utils' // utils/index.js里面好像没这个方法
+import { hasResponseError } from 'utils' // utils/index.js里面没这个方法
 // import moment from 'moment'
 import { message } from 'antd'
 
@@ -13,18 +13,17 @@ const listResultState = {
 
 export const houseCheckSearchResult = handleActions({
   'request houseCheck list'(state, action) {
-    return { ...state, loading: false }
+    return { ...state, loading: true }
   },
   'receive houseCheck list'(state, action) {
-    // eslint-disable-next-line no-unused-vars
-    const { req, res } = action.payload;
+    const { req, res } = action.payload; // req, res是house.houseCheckList请求的参数和返回的数据
     // if (hasResponseError(res)) {
     //   message.error(res.msg)
     //   return { ...state, loading: false }
     // }
     return { ...res.data, loading: false }
   },
-}, listResultState)
+}, listResultState);
 
 const queryResultState = () => ({
   keyword: { value: '' },

@@ -212,7 +212,7 @@ login(){
 │   │   │   ├── index.js
 │   │   │   └── table.js
 │   │   ├── register.js
-│   │   └── welcome.js
+│   │   └── houseDetail.js
 │   ├── reducers
 │   │   ├── common.js
 │   │   ├── house.js
