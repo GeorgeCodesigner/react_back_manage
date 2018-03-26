@@ -21,8 +21,8 @@ const axiosBaseConfig = {
     status >= 200 && status < 300, // default
   // 请求数据预处理
   transformRequest: [(data, headers) => {
-    // 加入token？
-    const token = sessionStorage.getItem('token')
+    // 加入token？如果没加就加上token
+    const token = sessionStorage.getItem('token');
     if (token) {
       data.token = token
     }

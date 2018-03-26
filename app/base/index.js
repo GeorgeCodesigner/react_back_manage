@@ -50,8 +50,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { location, children } = this.props; // location在routes.js中配置
-    // console.log(children);
+    const { location, children } = this.props; // location是routes.js中的location,children是routes.js中的子组件(table,echarts,editor,chat)
     return (
       <div id="container" className="effect easeInOutBack mainnav-lg aside-bright">
         <Header />

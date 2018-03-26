@@ -8,9 +8,9 @@ export default (() => {
     // 生产环境用不同的接口地址
     if (process.env.NODE_ENV === 'production') {
       global.linkUrl = 'http://localhost:3000';
-    }else if(process.env.NODE_ENV === 'development') {
-          console.log('development');
-      }
+    }else if (process.env.NODE_ENV === 'development') {
+      console.log('development');
+    }
     // 系统一二级菜单
     global.nav = [
       {

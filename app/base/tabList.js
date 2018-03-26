@@ -10,7 +10,8 @@ import { updateTabChecked, deleteTabFromList } from 'actions/tabList'
 const { TabPane } = Tabs;
 
 @connect(
-  (state, props) => ({ tabList: state.tabListResult }), // 默认执行requestTabList方法
+  //tabListResult刚开始取的是reducers/tabList.js里面的initialState;后面点击菜单以及菜单之间切换时state会更新，从而使得tabListResult取的是state
+  (state, props) => ({ tabList: state.tabListResult }),
   dispatch => ({
     actions: bindActionCreators(routerActions, dispatch),
     dispatch: dispatch,
@@ -33,30 +34,18 @@ export default class TabList extends Component {
   onEdit(targetKey, action) {
     this[action](targetKey);
   }
+  // tab删除按钮点击触发函数，跟在onEdit下面，固定格式
   remove(targetKey) {
-    const { actions, tabList } = this.props;
-    let delIndex;
-    let activeKey;
-
-    if (targetKey === tabList.activeKey) {
-      tabList.list.map((tab, index) => {
-        tab.key === targetKey ? delIndex = index : null;
-      });
-      // eslint-disable-next-line no-nested-ternary
-      activeKey = tabList.list[delIndex + 1] ?
-        tabList.list[delIndex + 1].key : (tabList.list[delIndex - 1] ?
-          tabList.list[delIndex - 1].key : '');
-      actions.push(activeKey);
-    }
-    this.props.dispatch(deleteTabFromList({ targetKey: targetKey }));
+    const { actions } = this.props;
+    this.props.dispatch(deleteTabFromList({ actions: actions, targetKey: targetKey }));
   }
+  // 接收到新的props的时候才重新渲染
   shouldComponentUpdate(nextProps, nextState) {
     const thisProps = this.props || {};
     if (Object.keys(thisProps).length !== Object.keys(nextProps).length) {
       return true;
     }
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key in nextProps) {
+    for(const key in nextProps) {
       // Immutable.is对两个对象进行值比较，只比较值
       if (thisProps[key] !== nextProps[key] || !is(thisProps[key], nextProps[key])) {
         return true;
@@ -66,6 +55,7 @@ export default class TabList extends Component {
   }
   render() {
     const { tabList } = this.props;
+    // console.log(tabList);
     return (
       <Tabs
         hideAdd // 不赋值说明是true，表示隐藏加号图标
@@ -76,7 +66,8 @@ export default class TabList extends Component {
       >
         {
           tabList.list.map(tab =>
-            <TabPane tab={tab.title} key={tab.key}>{tab.content}</TabPane>)
+            <TabPane tab={tab.title} key={tab.key}>{tab.content}</TabPane> // tab.content没东西
+          )
         }
       </Tabs>
     )

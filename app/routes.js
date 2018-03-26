@@ -13,7 +13,12 @@ const table = (location, cb) => {
     cb(null, require('./pages/menu/table').default)
   }, 'table')
 }
-
+//表格列表每一项的详情
+const houseDetail = (location, cb) => {
+    require.ensure([], (require) => {
+        cb(null, require('./pages/menu/houseDetail').default)
+    }, 'houseDetail')
+}
 // 图表
 const echarts = (location, cb) => {
   require.ensure([], (require) => {
@@ -67,6 +72,7 @@ export default () => (
       <Route path="/editor" getComponent={editor} />
       <Route path="/chat" getComponent={chat} />
     </Route>
+    <Route path="/houseDetail/:detailId" getComponent={houseDetail} />
     <Route path="/login" getComponent={Login} />
     <Route path="/register" getComponent={Register} />
   </Router>
