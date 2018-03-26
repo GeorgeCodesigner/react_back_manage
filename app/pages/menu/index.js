@@ -4,5 +4,5 @@ import table from './table'
 import editor from './editor'
 
 export {
-    echarts, table, editor,
+  echarts, table, editor,
 }

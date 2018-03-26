@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -7,18 +6,14 @@ import {
   fetchHouseCheckList,
 } from 'actions/house'
 
-if (process.env.NODE_ENV === 'development') {
-  console.log('development')
-}
-
-const FormItem = Form.Item
+const FormItem = Form.Item;
 
 @Form.create({})
 
 @connect((state, props) => ({
-    config: state.config,
-    houseCheckSearchResult: state.houseCheckSearchResult,
-  }),)
+  config: state.config,
+  houseCheckSearchResult: state.houseCheckSearchResult,
+}))
 export default class app extends Component {
   constructor(props) {
     super(props)
@@ -26,8 +21,8 @@ export default class app extends Component {
       data: {
 
       },
-    }
-    this._handleSubmit = this._handleSubmit.bind(this)
+    };
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -106,8 +101,8 @@ export default class app extends Component {
   }
 
   render() {
-    const { houseCheckSearchResult, form } = this.props
-    const { getFieldDecorator } = form
+    const { houseCheckSearchResult, form } = this.props;
+    const { getFieldDecorator } = form;
     // console.log(houseCheckSearchResult)
     return (
       <div className="page">

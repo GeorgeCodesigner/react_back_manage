@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const tabListResult = handleActions({
-  'request tab list'(state, action) {
+  'request tab list'(state, action) { // 默认执行的方法
     return { ...state, loading: false }
   },
   'update tab list'(state, action) {

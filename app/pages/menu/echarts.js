@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -16,17 +15,15 @@ export default class app extends Component {
       },
     }
   }
-
   componentDidMount() {
     // this.loadChart()
     setTimeout(() => {
       this.loadChart()
     }, 500)
   }
-
   loadChart() {
     // console.log(this.chart)
-    this.chartObj = echarts.init(this.chart)
+    this.chartObj = echarts.init(this.chart);
     const option = {
       tooltip: {
         trigger: 'item',
@@ -71,12 +68,11 @@ export default class app extends Component {
         },
       ],
     };
-    this.chartObj.setOption(option)
+    this.chartObj.setOption(option);
   }
-
   render() {
     return (
-      <div className="page">23423
+      <div className="page">
         <div className="page" ref={c => this.chart = c} />
       </div>
     )

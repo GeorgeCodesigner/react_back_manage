@@ -25,7 +25,6 @@ export default class LeftNav extends Component {
     this.navMini = this.navMini.bind(this);
     this.renderLeftNav = this.renderLeftNav.bind(this);
   }
-
   componentWillMount() {
     // // 初始化左侧菜单是mini模式还是正常模式
     // if (sessionStorage.getItem('isLeftNavMini') === 'false') {
@@ -64,14 +63,12 @@ export default class LeftNav extends Component {
       openKeys: [`sub${curSub}`],
     })
   }
-
   _handleClick = (e) => {
     // console.log(e); // e是点击事件
     hashHistory.push(e.key);
     // 更新tablist并保存在sessionStorage中，为了每次刷新时主页右半部分的tab页显示正确
     this.props.dispatch(updateTabList({ title: e.item.props.name, content: '', key: e.key }));
   };
-
   _handleToggle = (openKeys) => {
     const { state } = this;
     console.log(state.openKeys); // 传参openKeys是Menu的openKeys属性
@@ -87,7 +84,6 @@ export default class LeftNav extends Component {
     // }
     this.setState({ openKeys: nextOpenKeys });
   };
-
   // getAncestorKeys = (key) => {
   //   const map = {
   //     sub3: ['sub2'],
@@ -111,7 +107,7 @@ export default class LeftNav extends Component {
   };
   // 二级菜单的生成
   renderLeftNav(options) {
-    const self = this
+    const self = this;
     return options.map((item, index) => {
       // 没有二级菜单时
       if (!item.children) {
@@ -148,7 +144,6 @@ export default class LeftNav extends Component {
       )
     })
   }
-
   render() {
     const selectedKeys = [this.props.location.pathname.replace('/', '')]; // 每次选择二级菜单都会渲染一次
     // console.log(selectedKeys);

@@ -8,7 +8,9 @@ export default (() => {
     // 生产环境用不同的接口地址
     if (process.env.NODE_ENV === 'production') {
       global.linkUrl = 'http://localhost:3000';
-    }
+    }else if(process.env.NODE_ENV === 'development') {
+          console.log('development');
+      }
     // 系统一二级菜单
     global.nav = [
       {
@@ -18,13 +20,13 @@ export default (() => {
         url: '',
         children: [
           {
-            id: 600110232, name: '表格', url: 'table', icon: 'user',
+            id: 600110232, name: '表格', url: 'table', icon: 'table',
           },
           {
             id: 600110233, name: '图表', url: 'echarts', icon: 'area-chart',
           },
           {
-            id: 600110234, name: '编辑器', url: 'editor', icon: 'area-chart',
+            id: 600110234, name: '编辑器', url: 'editor', icon: 'edit',
           },
         ],
       },
@@ -35,7 +37,7 @@ export default (() => {
         url: '',
         children: [
           {
-            id: 600110431, name: '聊天室', url: 'chat', icon: 'book',
+            id: 600110431, name: '聊天室', url: 'chat', icon: 'wechat',
           },
         ],
       },
