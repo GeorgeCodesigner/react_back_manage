@@ -19,9 +19,9 @@ export default class app extends Component {
     super(props);
     this.state = {
       data: {},
-    }
+    };
     this._handleSubmit = this._handleSubmit.bind(this);
-    this.pagiChange = this.pagiChange.bind(this);
+    this.pagiChange = this._pagiChange.bind(this);
   }
   componentDidMount() {
     this.props.dispatch(fetchHouseCheckList({ currentPage: 1 }, (respose) => {}))
@@ -92,7 +92,7 @@ export default class app extends Component {
     ]
   }
   // 分页器改变页码调用的函数
-  pagiChange(page, pageSize) {
+  _pagiChange(page, pageSize) {
     console.log('页码：' + page);
     console.log('每页条数：' + pageSize);
   }
@@ -123,7 +123,7 @@ export default class app extends Component {
         </div>
         <Spin spinning={houseCheckSearchResult.loading}>
           <Table
-            rowKey="id"
+            rowKey="id" // 数据的主键是id
             dataSource={houseCheckSearchResult.list}
             columns={this.columns()}
             pagination={{

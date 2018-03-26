@@ -1,6 +1,7 @@
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+// draft-js是构建富文本编辑器的 JavaScript 框架，基于 React 进行开发
+// EditorState是用来表示Editor组件的顶级状态对象
 import { Editor, EditorState, RichUtils } from 'draft-js'
 import 'draft-js/dist/Draft.css'
 import 'style/RichEditor.less'
@@ -10,12 +11,12 @@ import 'style/RichEditor.less'
 }))
 export default class app extends Component {
   constructor(props) {
+    // 固定配置的写法
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
-
-    this.focus = () => this.refs.editor.focus();
+    this.state = { editorState: EditorState.createEmpty() }; // EditorState创建新对象
     this.onChange = editorState => this.setState({ editorState });
-
+    // 自定义写法
+    this.focus = () => this.refs.editor.focus(); // 点击时候聚焦
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.onTab = this._onTab.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
@@ -52,7 +53,6 @@ export default class app extends Component {
 
   render() {
     const { editorState } = this.state;
-
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';

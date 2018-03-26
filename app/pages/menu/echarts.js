@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+// import { Link } from 'react-router'
 import echarts from 'echarts'
 
 @connect((state, props) => ({
@@ -8,7 +8,7 @@ import echarts from 'echarts'
 }))
 export default class app extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       data: {
 
@@ -18,7 +18,7 @@ export default class app extends Component {
   componentDidMount() {
     // this.loadChart()
     setTimeout(() => {
-      this.loadChart()
+      this.loadChart();
     }, 500)
   }
   loadChart() {
@@ -70,6 +70,8 @@ export default class app extends Component {
     };
     this.chartObj.setOption(option);
   }
+  // ref属性表示对组件真正实例(可以是组件，也可以是具体的dom元素节点)的引用;ref设置回调函数执行的时机是：1.组件被挂载 2.组件被卸载或者原有的ref属性本身发生变化时
+  // 这里使用回调函数表示this.chart是对div节点的引用
   render() {
     return (
       <div className="page">

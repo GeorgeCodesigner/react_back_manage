@@ -13,11 +13,11 @@ const table = (location, cb) => {
     cb(null, require('./pages/menu/table').default)
   }, 'table')
 }
-//表格列表每一项的详情
+// 表格列表每一项的详情
 const houseDetail = (location, cb) => {
-    require.ensure([], (require) => {
-        cb(null, require('./pages/menu/houseDetail').default)
-    }, 'houseDetail')
+  require.ensure([], (require) => {
+    cb(null, require('./pages/menu/houseDetail').default)
+  }, 'houseDetail')
 }
 // 图表
 const echarts = (location, cb) => {
