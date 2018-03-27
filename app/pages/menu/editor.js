@@ -31,9 +31,9 @@ export default class app extends Component {
     }
     return false;
   }
-
+  // UL或者OL编辑时，使用tab健可以实现嵌套列表
   _onTab(e) {
-    const maxDepth = 4;
+    const maxDepth = 4; // 嵌套列表的深度
     this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
   }
   // 切换控制块级样式的处理
@@ -57,6 +57,7 @@ export default class app extends Component {
     let className = 'RichEditor-editor';
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
+      // 如果点击了块级样式按钮，就会取BLOCK_TYPES里面的style的值
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' RichEditor-hidePlaceholder';
       }
@@ -90,7 +91,7 @@ export default class app extends Component {
   }
 }
 
-// Custom overrides for "code" style.
+// 自定义内联样式，取代下面的monospace原有的样式
 const styleMap = {
   CODE: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
