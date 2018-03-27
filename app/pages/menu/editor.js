@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // draft-js是构建富文本编辑器的 JavaScript 框架，基于 React 进行开发
-// EditorState是用来表示Editor组件的顶级状态对象
+// EditorState是用来表示Editor组件的顶级状态对象，其包含很多状态
 import { Editor, EditorState, RichUtils } from 'draft-js'
 import 'draft-js/dist/Draft.css'
 import 'style/RichEditor.less'
@@ -13,8 +13,8 @@ export default class app extends Component {
   constructor(props) {
     // 固定配置的写法
     super(props);
-    this.state = { editorState: EditorState.createEmpty() }; // EditorState创建新对象
-    this.onChange = editorState => this.setState({ editorState });
+    this.state = { editorState: EditorState.createEmpty() }; // EditorState创建新对象作为编辑器的初始状态
+    this.onChange = editorState => this.setState({ editorState }); // 双向绑定
     // 自定义写法
     this.focus = () => this.refs.editor.focus(); // 点击时候聚焦
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -22,7 +22,7 @@ export default class app extends Component {
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
   }
-
+  // 处理键盘的Cmd事件，比如Cmd+B (bold), Cmd+I (italic)
   _handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -36,14 +36,14 @@ export default class app extends Component {
     const maxDepth = 4;
     this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
   }
-
+  // 切换控制块级样式的处理
   _toggleBlockType(blockType) {
     this.onChange(RichUtils.toggleBlockType(
       this.state.editorState,
       blockType,
     ));
   }
-
+  // 切换控制内联样式的处理
   _toggleInlineStyle(inlineStyle) {
     this.onChange(RichUtils.toggleInlineStyle(
       this.state.editorState,
@@ -53,8 +53,7 @@ export default class app extends Component {
 
   render() {
     const { editorState } = this.state;
-    // If the user changes block type before entering any text, we can
-    // either style the placeholder or hide it. Let's just hide it now.
+    // 如果用户在输入内容之前点击块级样式按钮，隐藏placeholder
     let className = 'RichEditor-editor';
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
@@ -103,8 +102,10 @@ const styleMap = {
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-  case 'blockquote': return 'RichEditor-blockquote';
-  default: return null;
+  case 'blockquote':
+    return 'RichEditor-blockquote';
+  default:
+    return null;
   }
 }
 
@@ -116,7 +117,6 @@ class StyleButton extends React.Component {
       this.props.onToggle(this.props.style);
     };
   }
-
   render() {
     let className = 'RichEditor-styleButton';
     if (this.props.active) {
