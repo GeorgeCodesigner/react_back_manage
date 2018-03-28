@@ -71,7 +71,7 @@ export default class LeftNav extends Component {
   };
   _handleToggle = (openKeys) => {
     const { state } = this;
-    console.log(state.openKeys); // 传参openKeys是Menu的openKeys属性
+    // console.log(state.openKeys); // 传参openKeys是Menu的openKeys属性
     const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1)); // 最近打开的key(必须是手动点击打开的)
     const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1)); // 最近关闭的key(必须是手动点击关闭的)
     let nextOpenKeys = [];

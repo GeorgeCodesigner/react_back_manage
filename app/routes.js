@@ -40,7 +40,7 @@ const Register = (location, cb) => {
   }, 'register')
 }
 
-// 测试
+// 聊天
 const chat = (location, cb) => {
   require.ensure([], (require) => {
     cb(null, require('./pages/chat').default)

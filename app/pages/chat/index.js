@@ -1,29 +1,25 @@
-
 import React, { Component } from 'react'
 import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import { Button, Input, Icon, Form, Dropdown, message } from 'antd'
-import * as io from 'socket.io-client'
+import * as io from 'socket.io-client' // socket.io的客户端
 import 'style/im.less'
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 @Form.create()
-
-@connect(
-    (state, props) => ({
-      config: state.config,
-    })
-)
-
+@connect((state, props) => ({
+  config: state.config,
+}))
 export default class popCheck extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      showIm: true, // 是否显示im
+      showIm: true, // 是否显示聊天窗口
       users: [], // 所有在线用户
       usersTem: [], // 左侧显示的用户列表
-      recordList: [
+      recordList: [ // 聊天信息列表
+        // 测试数据
         // {
         //   id: 1,
         //   type: 'user',
@@ -49,100 +45,82 @@ export default class popCheck extends Component {
         //   time: '2017-10-30 18:50:12',
         //   content: '加入了群聊',
         // },
-      ], // 聊天信息列表
+      ],
       count: 0, // 当前在线人数
     }
   }
-
   componentDidMount() {
-    this.loadSocket()
+    this.loadSocket();
     // document.body.addEventListener('click', () => this.setState({ showIm: false }))
   }
-
   loadSocket() {
-    const that = this
+    const that = this;
     // const script = document.createElement('script')
     // script.type = 'text/javascript'
     // script.src = '../../components/socket.io.js'
     // document.body.appendChild(script)
     // script.onload = () => {
-    const url = location.hostname
-    that.socket = io.connect(`http://${url}:3333/`)
-
-      // 测试是否链接上websocket
-    that.socket.on('connect', () => console.log('连接socket服务器成功'))
-
-    that.socket.emit('login', sessionStorage.getItem('username'))
-
-      // 有新的消息发送
+    const url = location.hostname;
+    that.socket = io.connect(`http://${url}:3333/`);
+    // 测试是否链接上websocket
+    that.socket.on('connect', () => console.log('连接socket服务器成功'));
+    const { username } = JSON.parse(sessionStorage.getItem('staff'));
+    that.socket.emit('login', username); // 告诉服务器登录者的昵称
+    // 接收来自服务器告知的新的消息并在聊天框中展示
     that.socket.on('newMsg', (user, msg, color) => {
       this._displayNewMsg(user, msg, color)
-    })
-
-      // 登录聊天室成功
-    that.socket.on('loginSuccess', (nickName, users) => {
-        // console.log(users)
-      const arr = []
-      users.map((item, index) => {
-        arr.push({ name: item, id: index })
-      })
-      that.setState({
-        users: arr,
-        count: arr.length,
-        usersTem: arr,
-      })
-    })
-
-      // 用户名重名
+    });
+    // 接收服务器告知的登录聊天室成功
+    that.socket.on('loginSuccess', (tip) => {
+      console.log(tip);
+    });
+    // 用户名重名
     that.socket.on('nickExisted', (nickName, users) => {
-      message.error('登录用户名重复，请重新登录设置不同的用户名', 5)
+      message.error('登录用户名重复，请重新登录设置不同的用户名', 5);
       setTimeout(() => {
         hashHistory.push('/login')
       }, 3000)
-    })
-
-      // 监听错误消息
+    });
+    // 监听错误消息(没用到)
     that.socket.on('error', (err) => {
-        // console.log(err)
-    })
-
-      // 监听系统消息
+      // console.log(err)
+    });
+    // 监听系统消息
     this.socket.on('system', (nickName, users, type) => {
-        // console.log(nickName, users, type)
+      // console.log(nickName, users, type)
       if (users.length) {
-        const arr = []
+        const arr = [];
         users.map((item, index) => {
           arr.push({ name: item, id: index })
-        })
+        });
         that.setState({
           users: arr,
           usersTem: arr,
           count: arr.length,
         })
       }
-
-      let typeNew
+      let typeNew;
       if (type === 'login') {
-        typeNew = '加入了'
+        typeNew = ' 加入了'
+      } else if (type === 'logout') {
+        typeNew = ' 离开了'
       }
-      if (type === 'logout') {
-        typeNew = '离开了'
-      }
-      this._displayNewMsg('system', `${nickName}${typeNew}群聊`, 'color')
+      this._displayNewMsg('system', `${nickName}${typeNew}群聊`, 'color');
     })
     // }
   }
 
-  // 显示消息
+  // 聊天框中显示消息
   _displayNewMsg = (user, msg, color) => {
     // console.log(user, msg, color)
-    const { recordList } = this.state
-    let obj = {}
-    const id = recordList.length + 1
-    const time = (new Date()).format('yyyy-MM-dd hh:mm:ss')
-    const msgNew = this._showEmoji(msg)
+    const { recordList } = this.state;
+    let obj = {};
+    const id = recordList.length + 1;
+    const time = new Date().format('yyyy-MM-dd hh:mm:ss');
+    const msgNew = this._showEmoji(msg);
     // 如果是自己发的消息
-    if (user === sessionStorage.getItem('username')) {
+    const { username } = JSON.parse(sessionStorage.getItem('staff'));
+    if (user === username) {
       obj = {
         id: id,
         type: 'user',
@@ -164,7 +142,7 @@ export default class popCheck extends Component {
       }
     }
     // 其他用户发送的消息
-    if (user !== sessionStorage.getItem('username') && user !== 'system') {
+    if (user !== username && user !== 'system') {
       obj = {
         id: id,
         type: 'user',
@@ -175,11 +153,11 @@ export default class popCheck extends Component {
         src: '',
       }
     }
-    recordList.push(obj)
+    recordList.push(obj);
     this.setState({ recordList: recordList }, () => {
       // console.log(recordList)
-      const container = document.getElementById('recordList')
-      container.scrollTop = container.scrollHeight
+      const container = document.getElementById('recordList');
+      container.scrollTop = container.scrollHeight;
       this.props.form.resetFields()
     })
   }
@@ -230,8 +208,9 @@ export default class popCheck extends Component {
     // const msg = this.props.form.getFieldValue('msg')
     // this.props.form.setFieldsValue({ msg: `${msg}[emoji:${i}]` })
     // document.getElementById('msg').focus()
-    this.socket.emit('postMsg', `[emoji:${i}]`, 'color')
-    this._displayNewMsg(sessionStorage.getItem('username'), `[emoji:${i}]`, 'color')
+    this.socket.emit('postMsg', `[emoji:${i}]`, 'color');
+    const { username } = JSON.parse(sessionStorage.getItem('staff'));
+    this._displayNewMsg(username, `[emoji:${i}]`, 'color')
   }
 
   // 按发送按钮发送消息
@@ -239,8 +218,9 @@ export default class popCheck extends Component {
     e.preventDefault()
     const msg = this.props.form.getFieldValue('msg')
     if (msg) {
-      this.socket.emit('postMsg', msg, 'color')
-      this._displayNewMsg(sessionStorage.getItem('username'), msg, 'color')
+      this.socket.emit('postMsg', msg, 'color');
+      const { username } = JSON.parse(sessionStorage.getItem('staff'));
+      this._displayNewMsg(username, msg, 'color')
     }
   }
 
@@ -282,8 +262,9 @@ export default class popCheck extends Component {
   }
 
   render() {
-    const { showIm, recordList, usersTem, count } = this.state
-    const { getFieldDecorator } = this.props.form
+    const {showIm, recordList, usersTem, count} = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { username } = JSON.parse(sessionStorage.getItem('staff'));
     // console.log(recordList)
     return (
       <div className="page">
@@ -301,7 +282,7 @@ export default class popCheck extends Component {
                 <ul>
                 {
                   usersTem.map(item => (
-                    <li key={item.name} className={item.name === sessionStorage.getItem('username') ? 'on' : ''}>
+                    <li key={item.name} className={item.name === username ? 'on' : ''}>
                       <Icon type="github" />
                       <span className="name" title={item.name}>{item.name}</span>
                     </li>
@@ -310,9 +291,7 @@ export default class popCheck extends Component {
                 </ul>
               </div>
               <div className="im-r">
-
                 <div className="im-r-box">
-
                   <div className="operate">
                     <div className="totle">当前在线人数:<span className="count">{count}</span></div>
                     <span>

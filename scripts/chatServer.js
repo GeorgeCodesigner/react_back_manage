@@ -1,7 +1,7 @@
-let express = require('express'),
+let express = require('express'), // 使用express框架
   app = express(),
   server = require('http').createServer(app),
-  io = require('socket.io').listen(server),
+  io = require('socket.io').listen(server), // socket.io的服务端
   users = [];
 // specify the html we will use
 // app.use('/', express.static(__dirname + '/www'));
@@ -12,19 +12,21 @@ server.listen(process.env.PORT || 3333);// publish to heroku
 // console.log('server started on port'+process.env.PORT || 3000);
 // handle the socket
 io.sockets.on('connection', function (socket) {
-// new user login
+  // new user login
   socket.on('login', function (nickname) {
-    if (users.indexOf(nickname) > -1) {
+    console.log(nickname);
+    console.log(users);
+    if (users.indexOf(nickname) > -1 && nickname!==null) {
       socket.emit('nickExisted', nickname, users);
     } else {
         // socket.userIndex = users.length;
       socket.nickname = nickname;
       users.push(nickname);
-      socket.emit('loginSuccess', nickname, users);
+      socket.emit('loginSuccess', '登录成功');
       io.sockets.emit('system', nickname, users, 'login');
     }
   });
-// user leaves
+  // user leaves
   socket.on('disconnect', function () {
     if (socket.nickname != null) {
         // users.splice(socket.userIndex, 1);
@@ -32,12 +34,12 @@ io.sockets.on('connection', function (socket) {
       socket.broadcast.emit('system', socket.nickname, users, 'logout');
     }
   });
-// new message get
+  // new message get
   socket.on('postMsg', function (msg, color) {
-    console.log(msg)
-    socket.broadcast.emit('newMsg', socket.nickname, msg, color);
+    console.log(msg);
+    socket.broadcast.emit('newMsg', socket.nickname, msg, color); // 告诉客户端有新的消息
   });
-// new image get
+  // new image get
   socket.on('img', function (imgData, color) {
     socket.broadcast.emit('newImg', socket.nickname, imgData, color);
   });
