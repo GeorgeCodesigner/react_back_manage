@@ -60,20 +60,18 @@ export default class popCheck extends Component {
     // script.src = '../../components/socket.io.js'
     // document.body.appendChild(script)
     // script.onload = () => {
-    const url = location.hostname;
+    const url = window.location.hostname;
     that.socket = io.connect(`http://${url}:3333/`);
     // 测试是否链接上websocket
     that.socket.on('connect', () => console.log('连接socket服务器成功'));
     const { username } = JSON.parse(sessionStorage.getItem('staff'));
     that.socket.emit('login', username); // 告诉服务器登录者的昵称
-    // 接收来自服务器告知的新的消息并在聊天框中展示
+    // 接收来自服务器告知的新的消息并在聊天框中展示(对方发消息己方有提示)
     that.socket.on('newMsg', (user, msg, color) => {
-      this._displayNewMsg(user, msg, color)
+      this._displayNewMsg(user, msg, color); // 显示对方发的消息
     });
     // 接收服务器告知的登录聊天室成功
-    that.socket.on('loginSuccess', (tip) => {
-      console.log(tip);
-    });
+    that.socket.on('loginSuccess', (tip) => console.log(tip));
     // 用户名重名
     that.socket.on('nickExisted', (nickName, users) => {
       message.error('登录用户名重复，请重新登录设置不同的用户名', 5);
@@ -109,7 +107,6 @@ export default class popCheck extends Component {
     })
     // }
   }
-
   // 聊天框中显示消息
   _displayNewMsg = (user, msg, color) => {
     // console.log(user, msg, color)
@@ -118,9 +115,8 @@ export default class popCheck extends Component {
     const id = recordList.length + 1;
     const time = new Date().format('yyyy-MM-dd hh:mm:ss');
     const msgNew = this._showEmoji(msg);
-    // 如果是自己发的消息
     const { username } = JSON.parse(sessionStorage.getItem('staff'));
-    if (user === username) {
+    if (user === username) { // 如果是自己发的消息
       obj = {
         id: id,
         type: 'user',
@@ -130,9 +126,7 @@ export default class popCheck extends Component {
         content: msgNew,
         src: '',
       }
-    }
-    // 系统消息
-    if (user === 'system') {
+    } else if (user === 'system') { // 系统消息
       obj = {
         id: id,
         type: 'system',
@@ -141,8 +135,7 @@ export default class popCheck extends Component {
         content: msgNew,
       }
     }
-    // 其他用户发送的消息
-    if (user !== username && user !== 'system') {
+    } else if (user !== username && user !== 'system') { // 其他用户发送的消息
       obj = {
         id: id,
         type: 'user',
@@ -158,16 +151,15 @@ export default class popCheck extends Component {
       // console.log(recordList)
       const container = document.getElementById('recordList');
       container.scrollTop = container.scrollHeight;
-      this.props.form.resetFields()
+      this.props.form.resetFields();
     })
-  }
-
+  };
   // 初始化表情选择列表
   _initEmoji() {
-    const emojis = []
-    const url = location.href.split('#')[0]
+    const emojis = [];
+    const url = window.location.href.split('#')[0]
     for (let i = 1; i < 70; i++) {
-      emojis.push(i)
+      emojis.push(i);
     }
     return (
       <div className="emojis" id="emojis">
@@ -184,54 +176,54 @@ export default class popCheck extends Component {
       </div>
     )
   }
-
   // 将用户发送的表情包转义
   _showEmoji = (msg) => {
-    const url = location.href.split('#')[0]
-    let match
-    let result = msg
-    const reg = /\[emoji:\d+\]/g
-    let emojiIndex
-    const totalEmojiNum = 70
+    const url = window.location.href.split('#')[0]; // IP+端口号
+    let match;
+    let result = msg;
+    const reg = /\[emoji:\d+\]/g;
+    let emojiIndex;
+    const totalEmojiNum = 70;
     while (match = reg.exec(msg)) {
-      emojiIndex = match[0].slice(7, -1)
-      // console.log(match)
+      emojiIndex = match[0].slice(7, -1);
       if (emojiIndex <= totalEmojiNum) {
-        result = (<img src={`${url}images/emoji/${emojiIndex}.gif`} />)
+        result = (<img src={`${url}images/emoji/${emojiIndex}.gif`} />);
       }
     }
+    // console.log(result);
     return result
-  }
-
+  };
   // 表情点击事件
   faceClick(i) {
-    // const msg = this.props.form.getFieldValue('msg')
-    // this.props.form.setFieldsValue({ msg: `${msg}[emoji:${i}]` })
-    // document.getElementById('msg').focus()
+    // const msg = this.props.form.getFieldValue('msg');
+    // if (msg !== undefined) {
+    //   this.props.form.setFieldsValue({ msg: `${msg}[emoji:${i}]` });
+    // } else {
+    //   this.props.form.setFieldsValue({ msg: `[emoji:${i}]` });
+    // }
+    // document.getElementById('msg').focus();
     this.socket.emit('postMsg', `[emoji:${i}]`, 'color');
     const { username } = JSON.parse(sessionStorage.getItem('staff'));
-    this._displayNewMsg(username, `[emoji:${i}]`, 'color')
+    this._displayNewMsg(username, `[emoji:${i}]`, 'color'); // 显示己方发的表情
   }
-
   // 按发送按钮发送消息
   handleSubmit = (e) => {
-    e.preventDefault()
-    const msg = this.props.form.getFieldValue('msg')
+    e.preventDefault();
+    const msg = this.props.form.getFieldValue('msg');
     if (msg) {
       this.socket.emit('postMsg', msg, 'color');
       const { username } = JSON.parse(sessionStorage.getItem('staff'));
-      this._displayNewMsg(username, msg, 'color')
+      this._displayNewMsg(username, msg, 'color'); // 显示己方发的消息
     }
-  }
-
+  };
   // 按下回车按钮发送消息
   handleEnter = (e) => {
-    e.preventDefault()
-    const msg = this.props.form.getFieldValue('msg')
+    e.preventDefault();
+    const msg = this.props.form.getFieldValue('msg');
     if (e.keyCode === 13 && msg.trim().length !== 0) {
       this.handleSubmit(e)
     }
-  }
+  };
 
   // 搜索用户
   handleSearch = (e) => {
