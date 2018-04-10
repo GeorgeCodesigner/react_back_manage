@@ -134,7 +134,6 @@ export default class popCheck extends Component {
         time: time,
         content: msgNew,
       }
-    }
     } else if (user !== username && user !== 'system') { // 其他用户发送的消息
       obj = {
         id: id,
@@ -150,8 +149,8 @@ export default class popCheck extends Component {
     this.setState({ recordList: recordList }, () => {
       // console.log(recordList)
       const container = document.getElementById('recordList');
-      container.scrollTop = container.scrollHeight;
-      this.props.form.resetFields();
+      container.scrollTop = container.scrollHeight; // 滚动条滚动到最下方
+      this.props.form.resetFields(); // 重置（清空）输入框的值
     })
   };
   // 初始化表情选择列表
