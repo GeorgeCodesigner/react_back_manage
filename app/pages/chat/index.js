@@ -134,8 +134,7 @@ export default class popCheck extends Component {
         time: time,
         content: msgNew,
       }
-    }
-    } else if (user !== username && user !== 'system') { // 其他用户发送的消息
+    }else if (user !== username && user !== 'system') { // 其他用户发送的消息
       obj = {
         id: id,
         type: 'user',
